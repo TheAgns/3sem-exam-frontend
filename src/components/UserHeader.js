@@ -10,11 +10,12 @@ import {
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Home from "./Home";
-import FetchSingle from "./FetchSingle";
-import FetchSequentially from "./FetchSequentially";
-import FetchParallel from "./FetchParallelly";
-import FetchParallelly from "./FetchParallelly";
+import GetAllAssistants from "./GetAllAssistants";
+import MyBookings from "./MyBookings";
+import CreateAssistant from "./CreateAssistant";
+import FetchParallel from "./CreateAssistant";
 import NoMatch from "./NoMatch";
+import DeleteBooking from "./DeleteBooking";
 
 function UserHeader(props) {
   const { loggedIn, logout, validateAccess } = props;
@@ -29,22 +30,29 @@ function UserHeader(props) {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/fetch-single">
-          <FetchSingle />
+        <Route path="/GetAllAssistants">
+          <GetAllAssistants />
         </Route>
 
         {validateAccess === "user" ? (
-          <Route path="/fetch-sequentially">
-            <FetchSequentially />
+          <Route path="/MyBookings">
+            <MyBookings />
           </Route>
         ) : (
           ""
         )}
         {validateAccess === "admin" ? (
-          <Route path="/fetch-parallelly">
-            <FetchParallelly />
+          <Route path="/createAssistant">
+            <CreateAssistant />
           </Route>
         ) : (
+          ""
+        )}
+         {validateAccess === "admin" ? (
+          <Route path="/deleteBooking">
+            <DeleteBooking />
+          </Route>
+       ) : (
           ""
         )}
         <Route path="*">

@@ -1,6 +1,7 @@
 import jwt_decode from "jwt-decode";
 import { URL } from "./Settings";
 
+
 //URL = "https://www.theagns.com/CA2-Backend";
 function handleHttpErrors(res) {
   if (!res.ok) {
@@ -61,7 +62,7 @@ function apiFacade() {
 const registerUser = (registerCredentials) => {
      const options = makeOptions('POST',true,registerCredentials);
      console.log(registerCredentials)
-     return fetch(URL + "/api/register", options)
+     return fetch(URL + "/api/info/register", options)
        .then(handleHttpErrors)
        .then((res) => {});
    }
@@ -72,10 +73,12 @@ const registerUser = (registerCredentials) => {
   };
 
   //Fetches from one endpoint. Only 1 external api call.
-  const fetchSingleData = () => {
-    const options = makeOptions("GET", true); //True add's the token
-    return fetch(URL + "/api/info/fetchSingle", options).then(handleHttpErrors);
-  };
+  function getAssistants(){
+    return fetch(URL + "/api/info/getAllAssistants")
+    .then(handleHttpErrors)
+    }
+
+
   //Fetches from one endpoint. 4 external api call.
   const fetchAlotData = () => {
     const options = makeOptions("GET", true); //True add's the token
@@ -88,6 +91,94 @@ const registerUser = (registerCredentials) => {
       handleHttpErrors
     );
   };
+
+  const getAllMyBookings = (username) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(
+      URL + "/api/info/getBooking/" + username,options)
+      .then(handleHttpErrors);
+  };
+
+  const getUsername = () => {
+    var decoded = jwt_decode(getToken());
+    const { username } = decoded;
+    return username;
+  };
+
+  //US-4 As an admin I would like to create a new washing assistant
+  function createAssistant(assistant) {
+    const options = makeOptions("POST", true, assistant);
+    return fetch(URL + "/api/info/createAssistant", options)
+    .then(handleHttpErrors)
+    }
+//US-4 As an admin I would like to create a new washing assistant
+    function getAssistant(){
+      const name = document.getElementById("name").value;
+      const pricePerHour = document.getElementById("pricePerHour").value;
+      const primaryLanguage = document.getElementById("primaryLanguage").value;
+      const yearsOfExperience = document.getElementById("yearsOfExperience").value;
+      const assistant = {
+        "name" : name,
+        "pricePerHour" : pricePerHour,
+        "primaryLanguage" : primaryLanguage,
+        "yearsOfExperience" : yearsOfExperience
+      }
+      console.log(assistant)
+      createAssistant(assistant);
+    }
+    //US-7 As an admin I would like to delete a booking
+    function getBooking(){
+      return fetch(URL + "/api/info/getAllBookings")
+      .then(handleHttpErrors)
+      }
+    //US-7 As an admin I would like to delete a booking
+    function deleteSpecificBooking(id) {
+      const options = makeOptions("DELETE", true, id);
+      return fetch(URL + "/api/info/deleteBooking/" + id, options)
+      .then(handleHttpErrors)
+    };
+
+    // function createBooking(booking) {
+    //   const options = makeOptions("POST", true, booking);
+    //   return fetch(URL + "/api/info/createBooking", options)
+    //   .then(handleHttpErrors)
+    //   }
+
+    //   function getBookingCreate(){
+    //     const bookingTime = document.getElementById("bookingTime").value;
+    //     const date = document.getElementById("date").value;
+    //     const year = document.getElementById("year").value;
+    //     const month = document.getElementById("month").value;
+    //     const day = document.getElementById("day").value;
+    //     const time = document.getElementById("time").value;
+    //     const hour = document.getElementById("hour").value;
+    //     const minute = document.getElementById("minute").value;
+    //     const second = document.getElementById("second").value;
+    //     const nano = document.getElementById("nano").value;
+    //     const duration = document.getElementById("duration").value;
+    //     const booking = {
+    //       "bookingTime": {
+    //         "date": {
+    //           "year": year,
+    //           "month": month,
+    //           "day": day
+    //         },
+    //         "time": {
+    //           "hour": hour,
+    //           "minute": minute,
+    //           "second": second,
+    //           "nano": nano
+    //         }
+    //       },
+    //       "duration": duration
+          
+    //     }
+    //    console.log(booking)
+    //     createBooking(booking);
+      
+    //   }
+
+
   const makeOptions = (method, addToken, body) => {
     var opts = {
       method: method,
@@ -114,7 +205,12 @@ const registerUser = (registerCredentials) => {
     login,
     logout,
     fetchData,
-    fetchSingleData,
+    getAssistants,
+    getAllMyBookings,
+    createAssistant,
+    getBooking,
+    deleteSpecificBooking,
+    //createBooking,
     fetchAlotData,
     fetchAlotDataParallel,
     validateAccess,

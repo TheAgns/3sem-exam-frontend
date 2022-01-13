@@ -11,8 +11,8 @@ function Header({ loggedIn, logout, validateAccess }) {
       </li>
 
       <li>
-        <NavLink exact activeClassName="active" to="/fetch-single">
-          FetchSingle
+        <NavLink exact activeClassName="active" to="/GetAllAssistants">
+        Get all assistants
         </NavLink>
       </li>
       {!loggedIn ? (
@@ -25,8 +25,8 @@ function Header({ loggedIn, logout, validateAccess }) {
         <>
           {validateAccess === "user" ? (
             <li>
-              <NavLink exact activeClassName="active" to="/fetch-sequentially">
-                Fetch sequentially
+              <NavLink exact activeClassName="active" to="/MyBookings">
+              My bookings
               </NavLink>
             </li>
           ) : (
@@ -35,14 +35,24 @@ function Header({ loggedIn, logout, validateAccess }) {
 
           {validateAccess === "admin" ? (
             <li>
-              <NavLink exact activeClassName="active" to="/fetch-parallelly">
-                Fetch parallelly
+              <NavLink exact activeClassName="active" to="/createAssistant">
+                Create Assistant
               </NavLink>
             </li>
           ) : (
             ""
           )}
 
+        
+{validateAccess === "admin" ? (
+        <li>
+        <NavLink exact activeClassName="active" to="/deleteBooking">
+        All bookings
+        </NavLink>
+       </li>
+       ) : (
+        ""
+      )}
           <li>
             {/*Logout is never active. Once you click you gets to the homepage*/}
             <NavLink
