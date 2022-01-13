@@ -52,13 +52,13 @@ const GetAllAssistants = (props) => {
               <td>{assistant.primaryLanguage}</td>
               <td>{assistant.yearsOfExperience}</td>
               <td>
-                <button
+                {/* <button
                   className="btn btn-danger btn-sm"
                   id={assistant.id}
                   //onClick={deletePerson}
                 >
                   Delete
-                </button>
+                </button> */}
               </td>
             </tr>
           ))}

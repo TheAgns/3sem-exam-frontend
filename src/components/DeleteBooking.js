@@ -9,6 +9,8 @@ const DeleteBooking = (props) => {
 
   const [bookingAll, setBookingAll] = useState(null);
   const [update, setUpdate] = useState(0);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     facade.getBooking().then((res) => {
